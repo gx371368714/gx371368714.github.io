@@ -1,0 +1,151 @@
+.divboss{
+  width: auto;
+  height: auto;
+}
+.divtou{
+  width: 100%;
+  height: 100px;
+  background-image: url(images/75.png);
+  background-position:center;
+  position: fixed;
+  text-align: center;
+  top: 0px;
+  left: auto;
+  z-index: 1;
+  box-shadow: 5px 5px 3px gray;
+  opacity: 0.9;
+}
+.divtou a{
+  color: gray;
+  text-decoration: none;
+  line-height: 180px;
+  margin-left: 4%;
+}
+.a1{
+  margin-left: 20%;
+}
+a:hover{
+  text-decoration: underline;
+}
+.divzhong{
+  width: 80%;
+  height: auto;
+  background: #cccccc;
+  margin-left: 10%;
+  float: left;
+}
+.i1{
+  width:80%;
+  height:auto;
+  float: left;
+  margin-left: 10%;
+  margin-top: 110px;
+}
+.p1{
+    float: left;
+    margin: 0 10%;
+    width: 80%;
+    background: rgb(105,112,116);
+    text-align: center;
+}
+.p2{
+  float: left;
+  margin: 15px 10%;
+  width: 80%;
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+  padding: 20px 0;
+}
+.div2{
+  width: 80%;
+  float: left;
+  margin-left: 10%;
+}
+.div2 img{
+  float: left;
+  margin-left: 5%;
+  margin-top: 5px;
+}
+.div3{
+  width: 80%;
+  float: left;
+  margin-left: 10%;
+
+}
+.div3 div{
+  width: 30%;
+  height: auto;
+  float: left;
+  margin-left: 3%;
+  margin-top: 20px;
+  background: white;
+}
+.div3 img{
+  width: 100%;
+  height: auto;
+  margin-bottom: 0;
+}
+.div3 p{
+  width: 100%;
+  text-align: center;
+  margin: 0 0;
+}
+.divxia{
+  width: 80%;
+  height: auto;
+  background: #cccccc;
+  float: left;
+  margin-left: 10%;
+  padding-top: 20px;
+}
+.divxia1{
+  width: 50%;
+  float: left;
+  padding-top: 20px;
+}
+.divxia1 img{
+  float: right;
+}
+.divxia2 {
+  width: 49%;
+  float: left;
+  border-left: 1px solid gray;
+}
+.divxia2 span{
+  float: left;
+  margin: 20px;
+  line-height: 20px;
+  font-size: 20px;
+}
+.divxia2 img{
+  margin: 20px 20px;
+}
+@media screen and (max-width:860px) {
+  .div2{
+    width: 50%;
+    margin-left: 25%;
+    float: left;
+}
+  .div3 p{
+    font-size: 10px;
+  }
+ .div3{
+   width: 50%;
+   margin-left: 25%;
+   float: left;
+}
+.div3 div{
+  width: 40%;
+  height: 77px;
+  margin-left: 5%;
+  float: left;
+}
+.div3 img{
+  width: 100%;
+  height: auto;
+}
+.divxia2 span{
+  font-size: 10px;
+  line-height: 5%;
+}
+}
