@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin:0;}
+        canvas{
+             box-shadow: 0 0 10px #333;
+
+         }
+        #herocanvas{
+            position: absolute;
+            top:0;
+            left:0;
+        }
+        #bullet{
+            position: absolute;
+            top:0;
+            left:0;
+        }
+        #enemyCanvas{
+            position: absolute;
+            top:0;
+            left:0;
+        }
+    </style>
+</head>
+<body onload=drawAirplane()>
+<canvas id="bgcanvas" width="320" height="568"></canvas>
+<canvas id="herocanvas" width="320" height="568"></canvas>
+<canvas id="bullet" width="320" height="568"></canvas>
+<canvas id="enemyCanvas" width="320" height="568"></canvas>
+<script src="js/background.js"></script>
+<script src="js/hero.js"></script>
+<script src="js/bullet.js"></script>
+<script src="js/enemy.js"></script>
+</body>
+<script type="text/javascript">
+    function drawAirplane(){
+        var bgCanvas = document.getElementById('bgcanvas');
+        if(bgCanvas.getContext){
+            var bgURL = 'img/background.png';
+            //加载图片方法
+            loadBackground(bgURL,bgCanvas,moveBackground)
+            function moveBackground(bgImage){
+             var bgSound = new Audio('audio/game_music.mp3');
+              bgSound.loop = false;
+               bgSound.play();
+                setInterval(function(){
+                    var speed = 5;
+                    animateBackground(bgCanvas,bgImage,speed)
+                },30)
+                //主角
+                var herocanvas = document.getElementById('herocanvas');
+                var img = 'img/herofly.png';
+                var hero = createHero(66,82,herocanvas,img,heroLoaded);
+                function heroLoaded(image){
+                    hero.draw(herocanvas);
+                    setInterval(function(){
+                        hero.draw(herocanvas);
+                    },50)
+
+                }
+//                document.onkeydown = function(e){
+//                    var e = e || window.event;
+//                    setInterval(function(){})
+//                    switch(e.keyCode){
+//                        case 37:{
+//                            hero.direction = 1;
+//                            hero.move(herocanvas);
+//                            break;
+//                        }
+//                        case 38:{
+//                            hero.direction = 2;
+//                            hero.move(herocanvas);
+//                            break;
+//                        }
+//                        case 39:{
+//                            hero.direction = 3;
+//                            hero.move(herocanvas);
+//                            break;
+//                        }
+//                        case 40:{
+//                            hero.direction = 4;
+//                            hero.move(herocanvas);
+//                            break;
+//                        }
+//                    }
+//                }
+                //子弹飞
+                var bCanvas = document.getElementById('bullet');
+                var bctx = bCanvas.getContext('2d');
+                var doubleWidth = 48;
+                var doubleHeight = 14;
+                var bURL = 'img/bullet2.png';
+                var bulletArray = new Array();
+                var btimer = null;
+                 setInterval(function(){
+                    var bullet = createBullet(doubleWidth,doubleHeight,bURL,hero);
+                    bullet.draw(bCanvas);
+                    bulletArray.push(bullet);
+                },200)
+
+                btimer =setInterval(function () {
+                    //清楚画布
+                    bctx.clearRect(0,0,320,568);
+                    for(var i=0;i<bulletArray.length;i++){
+                        if(bulletArray[i].isOutOfScreen()){
+                            bulletArray.splice(i,1)
+                        }
+                        bulletArray[i].move();
+                        bulletArray[i].draw(bCanvas);
+                    }
+                },15)
+                //创建地极
+                var eCanvas = document.getElementById('enemyCanvas');
+                var ectx = eCanvas.getContext('2d');
+                var enemyArray = new Array();
+                setInterval(function(){
+                    var number = getRandForNum(1,8)
+                    var enemy;
+                    switch(number){
+                        case 1:{
+                            enemy =createEnemy(38,34,'img/enemy1.png',eCanvas);
+                            break;
+                        }
+                        case 2:{
+                            enemy =createEnemy(110,164,'img/enemy2.png',eCanvas);
+                            break;
+                        }
+                        case 3:{
+                            enemy =createEnemy(46,64,'img/enemy3.png',eCanvas);
+                            break;
+                        }
+                        case 4:{
+                            enemy =createEnemy(38,34,'img/enemy1.png',eCanvas);
+                            break;
+                        }
+                        case 5:{
+                            enemy =createEnemy(38,34,'img/enemy1.png',eCanvas);
+                            break;
+                        }
+                        case 6:{
+                            enemy =createEnemy(38,34,'img/enemy1.png',eCanvas);
+                            break;
+                        }
+                        case 7:{
+                            enemy =createEnemy(38,34,'img/enemy1.png',eCanvas);
+                            break;
+                        }
+                        case 8:{
+                            enemy =createEnemy(46,64,'img/enemy3.png',eCanvas);
+                            break;
+                        }
+
+
+                    }
+                    enemyArray.push(enemy);
+                    enemy.draw(eCanvas);
+
+                },1000)
+                var eTimer = setInterval(function () {
+                    //清楚画布
+                    ectx.clearRect(0,0,320,568);
+
+                    for(var j=0;j<enemyArray.length;j++){
+                        if(enemyArray[j].isOutOfScreen(eCanvas)){
+                            enemyArray.splice(j,1)
+                        }
+                        enemyArray[j].move();
+                        enemyArray[j].draw(eCanvas);
+                        if(isEnemyHitHero(enemyArray[j],hero)){
+                            clearInterval(eTimer);
+                            eTimer = null;
+                            btimer = null;
+                            ectx.clearRect(0,0,320,568);
+                            alert('Game Over!')
+                        }
+                    }
+                    //子弹敌机碰撞检测
+                    for(var l = 0;l<enemyArray.length;l++){
+                        var enemyX = enemyArray[l].x;
+                        var enemyW = enemyArray[l].w;
+                        var enemyY = enemyArray[l].y;
+                        var enemyH = enemyArray[l].h;
+                        for(var k = 0;k<bulletArray.length;k++){
+                            var bulletX = bulletArray[k].x;
+                            var bulletY = bulletArray[k].y;
+                            var bulletW = bulletArray[k].w;
+                            var bulletH = bulletArray[k].h;
+
+                            if(bulletX>= enemyX-bulletW && bulletX<=enemyX+enemyW && bulletY <= enemyY+enemyH&&bulletY+bulletH>=enemyY){
+                                enemyArray[l].hp -= 1;
+                                bulletArray.splice(k,1);
+                            }
+                            if(enemyArray[l].hp<=0){
+                                enemyArray.splice(l,1);
+                                var hit = new Audio('audio/enemy1_down.mp3');
+                                hit.loop = false;
+                                hit.play();
+
+                            }
+                        }
+
+                    }
+
+                },200)
+
+
+            }
+        }
+    }
+</script>
+</html>
