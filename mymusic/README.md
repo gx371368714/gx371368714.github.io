@@ -1,14 +1,14 @@
 # sport
 
-> A Vue.js project
+> Vue.js 音乐项目
 
-## Build Setup
+## 配置文件
 
 ``` bash
-# install dependencies
+# 安装依赖模块
 npm install
 
-# serve with hot reload at localhost:8080
+# 通过npm run dev命令,在浏览器中输入localhost:8080
 npm run dev
 
 # build for production with minification
